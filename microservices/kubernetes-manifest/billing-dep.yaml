@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-service
+  namespace: default
+  labels:
+    app: billing-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing-service
+  template:
+    metadata:
+      labels:
+        app: billing-service
+    spec:
+      initContainers:
+      - name: wait-for-postgresql
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          echo "Waiting for PostgreSQL to be ready...";
+          until nc -zv postgresql 5432; do
+            echo "PostgreSQL is not available yet. Retrying in 2 seconds...";
+            sleep 2;
+          done;
+          echo "PostgreSQL is ready.";
+      containers:
+      - name: billing-service
+        image: phihung1607/billing-service:1.0.14-dev
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: POSTGRES_PASSWORD
