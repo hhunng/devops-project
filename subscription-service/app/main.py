@@ -7,14 +7,18 @@ from api import (
 )
 from config.db.gino_db import db
 
-app = FastAPI()
 
+app = FastAPI(docs_url="/subscription", redoc_url=None)
+POSTGRES_PASSWORD=os.getenv("POSTGRES_PASSWORD", "default_password")
 
 @app.on_event("startup")
 async def initialize():
-    engine = await db.set_bind(
-        "postgresql+asyncpg://postgres:123@host.docker.internal:5432/public"
-    )
+    try:
+        await db.set_bind(f"postgresql+asyncpg://postgres:{POSTGRES_PASSWORD}@postgresql:5432/public")
+        logger.info("Database connected successfully.")
+    except Exception as e:
+        logger.error(f"Error during startup: {e}")
+        raise
 
 
 @app.on_event("shutdown")

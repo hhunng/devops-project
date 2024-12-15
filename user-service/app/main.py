@@ -9,7 +9,7 @@ from config.db.gino_db import db
 
 app = FastAPI(docs_url="/user", redoc_url=None)
 POSTGRES_PASSWORD=os.getenv("POSTGRES_PASSWORD", "default_password")
-logger.info(f"{POSTGRES_PASSWORD}")
+
 @app.on_event("startup")
 async def initialize():
     try:
