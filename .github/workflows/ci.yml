@@ -45,8 +45,5 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
-      - name: Find the name
-        run: |
-          find . -iname "*cloud*"
-      - name: Trigger the workflow
-        uses: ./.github/workflows/sonarcloud.yml
+  call-reusable-workflow:
+    uses: ./.github/workflows/sonarcloud.yml
