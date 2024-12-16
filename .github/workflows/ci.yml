@@ -45,10 +45,8 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
-      - name: SonarQubeScan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#  SonarScanner:
-#    needs: build
-#    uses: ./.github/workflows/sonarcloud.yml
+  SonarScanner:
+    needs: build
+    uses: ./.github/workflows/sonarcloud.yml
+    secrets:
+      sonar_token: ${{ secrets.SONAR_TOKEN }}

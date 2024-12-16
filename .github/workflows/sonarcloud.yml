@@ -1,24 +1,24 @@
-#name: SonarScanner Workflow
-#
-#on:
-#  workflow_call:
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Download artifact for coverage
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: coverage-report
-#
-#      - name: Code checkout
-#        uses: actions/checkout@v4
-#
-#      - name: SonarQubeScan
-#        uses: SonarSource/sonarqube-scan-action@v4
-#        env:
-#          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-#
-#
-#####
+name: SonarScanner Workflow
+
+on:
+  workflow_call:
+    secrets:
+      sonar_token:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact for coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: SonarQubeScan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
