@@ -45,3 +45,8 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
+      - name: Trigger another workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: sonarcloud.yml
+
