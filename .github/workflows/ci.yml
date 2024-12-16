@@ -48,5 +48,5 @@ jobs:
       - name: Invoke workflow without inputs
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: SonarScanner Workflow
+          workflow: sonarcloud.yml
 
