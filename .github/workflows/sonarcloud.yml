@@ -12,11 +12,13 @@ jobs:
         with:
           name: coverage-report
 
-      - name: Pull the project
+      - name: Code checkout
         uses: actions/checkout@v4
 
       - name: SonarQubeScan
         uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          projectBaseDir: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
