@@ -47,3 +47,5 @@ jobs:
 
       - name: Trigger the workflow
         uses: ./.github/workflows/sonarcloud.yml
+        with:
+          config-path: .github/workflows/sonarcloud.yml
