@@ -15,12 +15,8 @@ jobs:
       - name: Pull the project
         uses: actions/checkout@v4
 
-      - name: Analyze with SonarCloud
-        uses: warchant/setup-sonar-scanner@v7
-
-      - name: SonarQube Scan
+      - name: SonarQubeScan
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
-        run: sonar-scanner
 
