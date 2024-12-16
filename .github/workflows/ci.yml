@@ -14,6 +14,9 @@ on:
       - 'release-*'
       - 'hotfix-*'
 
+env:
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 jobs:
   build:
     name: Pull resources
