@@ -8,9 +8,12 @@ on:
 
 jobs:
   build:
-    - name: Download artifact for coverage
-      uses: actions/download-artifact@v4
-      with:
-        name: coverage-report
-    - name: Display structure of downloaded files
-      run: ls -R
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact for coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+
+      - name: Display structure of downloaded files
+        run: ls -R
