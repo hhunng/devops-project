@@ -12,5 +12,9 @@ jobs:
         with:
           name: coverage-report
 
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2.2.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: .
