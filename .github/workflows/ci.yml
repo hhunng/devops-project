@@ -45,8 +45,8 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
-      - name: Trigger another workflow
+      - name: Invoke workflow without inputs
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: sonarcloud.yml
+          workflow: SonarScanner Workflow
 
