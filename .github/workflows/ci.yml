@@ -46,4 +46,4 @@ jobs:
           path: coverage.xml
 
       - name: Trigger the workflow
-        uses: .github/workflows/sonarcloud.yml
+        uses: ./.github/workflows/sonarcloud.yml
