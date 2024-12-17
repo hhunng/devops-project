@@ -36,4 +36,4 @@ jobs:
 
       - name: Push the image
         run: |
-          docker push ghcr.io/${{ github.actor }}/${{ matrix.microservice }}:latest
+          docker push ghcr.io/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}
