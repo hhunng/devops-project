@@ -11,7 +11,7 @@ jobs:
       matrix:
         microservice: [billing-service, subscription-service, db-service, user-service]
     name: Build and scan image
-    runs-on: ${{ var.LINUX_
+    runs-on: ${{ vars.LINUX_RUNNER_VER }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
