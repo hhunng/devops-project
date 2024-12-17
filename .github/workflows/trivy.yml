@@ -11,19 +11,19 @@ jobs:
       matrix:
         microservice: [billing-service, subscription-service, db-service, user-service]
     name: Build and scan image
-    runs-on: ubuntu-latest
+    runs-on: ${{ var.LINUX_
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t docker.io/phihung1607/${{ matrix.microservice }}:${{ github.sha }} ./${{ matrix.microservice }}/
+          docker build -t docker.io/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} ./${{ matrix.microservice }}/
 
       - name: Run Trivy vulnerability scanner for microservice
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: 'docker.io/phihung1607/${{ matrix.microservice }}:${{ github.sha }}'
+          image-ref: 'docker.io/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}'
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
@@ -37,6 +37,3 @@ jobs:
       - name: Push the image
         run: |
           docker push ghcr.io/${{ github.actor }}/${{ matrix.microservice }}:latest
-      
-
-
