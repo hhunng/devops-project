@@ -45,7 +45,19 @@ jobs:
           name: coverage-report
           path: coverage.xml
 
+  DependencyCheck:
+    uses: ./.github/workflows/dependency-check.yml
+
   SonarScanner:
     needs: build
     uses: ./.github/workflows/sonarcloud.yml
     secrets: inherit
+
+  BuildScanPushImage:
+    needs: [build, DependencyCheck, SonarScanner]
+    uses: ./.github/workflows/trivy.yml
+    secrets: inherit
+
+
+
+

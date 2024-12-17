@@ -1,0 +1,29 @@
+name: Dependency Check Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  check-dependency:
+    runs-on: ubuntu-latest
+    name: Dependency Check
+    steps:
+      - name: Pull the resource
+        uses: actions/checkout@v4
+
+      - name: Check dependency
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'microservices'
+          path: '.'
+          format: 'HTML'
+          args: >
+            --failOnCVSS 7
+            --enableRetired
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
