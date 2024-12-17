@@ -11,7 +11,7 @@ jobs:
       matrix:
         microservice: [billing-service, subscription-service, db-service, user-service]
     name: Build and scan image
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
