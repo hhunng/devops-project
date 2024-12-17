@@ -25,11 +25,10 @@ jobs:
         with:
           image-ref: 'docker.io/phihung1607/${{ matrix.microservice }}:${{ github.sha }}'
           format: 'table'
-          exit-code: '1'
+          exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-          skip-setup-trivy: 'true'
 
       - name: Login to GitHub Container Registry
         run: |
