@@ -5,7 +5,7 @@ on:
 
 jobs:
   check-dependency:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.LINUX_RUNNER_VER }}
     name: Dependency Check
     steps:
       - name: Pull the resource
