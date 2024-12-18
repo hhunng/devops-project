@@ -17,8 +17,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build an image from Dockerfile
+        env:
+          DOCKER_TAG: ${{ format('{0}.{1}', github.run_number, github.run_id) }}
         run: |
-          docker build -t ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} \
+          docker build \
+            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} \
+            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ env.DOCKER_TAG }} \
+            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest \
             --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
             --label "org.opencontainers.image.description= ${{ matrix.microservice }} image for DEVOPS presentation" \
             --label "org.opencontainers.image.licenses=MIT" \
@@ -41,7 +46,3 @@ jobs:
       - name: Push the image
         run: |
           docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}
-          
-      - name: Pull the images
-        run: |
-          docker pull ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest
