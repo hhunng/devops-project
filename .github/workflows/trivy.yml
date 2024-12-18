@@ -19,7 +19,9 @@ jobs:
       - name: Build an image from Dockerfile
         run: |
           docker build -t ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} \
-            --label "org.opencontainers.image.source=${{ vars.PROJECT_REPO }}" \
+            --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
+            --label "org.opencontainers.image.description= ${{ matrix.microservice }} image for DEVOPS presentation" \
+            --label "org.opencontainers.image.licenses=MIT" \
             ./${{ matrix.microservice }}/
 
       - name: Run Trivy vulnerability scanner for microservice
