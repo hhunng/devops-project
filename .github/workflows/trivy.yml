@@ -22,9 +22,9 @@ jobs:
 
         run: |
           docker build \
-            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} \
-            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ env.DOCKER_TAG }} \
-            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest \
+            --tag ${{ vars.REGISTRY }}:${{ github.sha }} \
+            --tag ${{ vars.REGISTRY }}:${{ env.DOCKER_TAG }} \
+            --tag ${{ vars.REGISTRY }}:latest \
             --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
             --label "org.opencontainers.image.description= ${{ matrix.microservice }} image for DEVOPS presentation" \
             --label "org.opencontainers.image.licenses=MIT" \
@@ -33,7 +33,7 @@ jobs:
       - name: Run Trivy vulnerability scanner for microservice
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: '${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}'
+          image-ref: '${{ env.REGISTRY }}:${{ github.sha }}'
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
@@ -42,12 +42,10 @@ jobs:
 
       - name: Login to GitHub Container Registry
         run: |
-          echo "${{ secrets.git_token }}" | docker login ${{ vars.REGISTRY }} -u "${{ github.actor }}" --password-stdin
+          echo "${{ secrets.git_token }}" | docker login ${{ vars.REGISTRY_DOMAIN }} -u "${{ github.actor }}" --password-stdin
 
       - name: Push the image
         run: |
-          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}
-          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ env.DOCKER_TAG }} 
-          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest
-          
-###
+          docker push ${{ vars.REGISTRY }}:${{ github.sha }}
+          docker push ${{ vars.REGISTRY }}:${{ env.DOCKER_TAG }} 
+          docker push ${{ vars.REGISTRY }}:latest
