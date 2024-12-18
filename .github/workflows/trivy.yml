@@ -12,13 +12,14 @@ jobs:
         microservice: [billing-service, subscription-service, db-service, user-service]
     name: Build and scan image
     runs-on: ${{ vars.LINUX_RUNNER_VER }}
+    env:
+      DOCKER_TAG: ${{ format('{0}.{1}', github.run_number, github.run_id) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Build an image from Dockerfile
-        env:
-          DOCKER_TAG: ${{ format('{0}.{1}', github.run_number, github.run_id) }}
+
         run: |
           docker build \
             --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} \
@@ -46,3 +47,6 @@ jobs:
       - name: Push the image
         run: |
           docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}
+          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ env.DOCKER_TAG }} 
+          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest
+          
