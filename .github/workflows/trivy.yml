@@ -44,4 +44,4 @@ jobs:
           
       - name: Pull the images
         run: |
-          docker pull
+          docker pull ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest
