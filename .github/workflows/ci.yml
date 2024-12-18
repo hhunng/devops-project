@@ -55,5 +55,3 @@ jobs:
     needs: [build, DependencyCheck, SonarScanner]
     uses: ./.github/workflows/trivy.yml
     secrets: inherit
-
-#####
