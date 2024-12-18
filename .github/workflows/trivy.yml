@@ -42,4 +42,6 @@ jobs:
         run: |
           docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}
           
-          
+      - name: Pull the images
+        run: |
+          docker pull
