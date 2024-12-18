@@ -1,6 +1,6 @@
 .scannerwork/
 .venv
-.idea
+.idea/
 **/__pycache__/
 coverage.xml
 .coverage
