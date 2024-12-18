@@ -18,7 +18,9 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} ./${{ matrix.microservice }}/
+          docker build -t ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }} \
+            --label "org.opencontainers.image.source=${{ vars.PROJECT_REPO }}" \
+            ./${{ matrix.microservice }}/
 
       - name: Run Trivy vulnerability scanner for microservice
         uses: aquasecurity/trivy-action@0.28.0
