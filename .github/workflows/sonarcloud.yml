@@ -5,6 +5,8 @@ on:
     secrets:
       sonar_token:
         required: true
+      sonar_url:
+        required: true
 
 jobs:
   build:
@@ -25,5 +27,12 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.sonar_token }}
 
+      - name: Quality check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.sonar_token }}
+          SONAR_HOST_URL: ${{ secrets.sonar_url }}
 
 
