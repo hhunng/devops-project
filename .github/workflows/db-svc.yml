@@ -39,4 +39,3 @@ jobs:
     needs: DockerfileLinter
     uses: ./.github/workflows/trivy.yml
     secrets: inherit
-
