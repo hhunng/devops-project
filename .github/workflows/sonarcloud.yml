@@ -27,6 +27,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.sonar_token }}
 
+      - name: Find report-task.txt
+        run: |
+          # Recursively find report-task.txt and print its absolute path
+          find "$(pwd)" -name "report-task.txt" -exec realpath {} \;
+
       - name: Quality check
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
