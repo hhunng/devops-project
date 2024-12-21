@@ -31,7 +31,7 @@ jobs:
 #    uses: ./.github/workflows/dependency-check.yml
 
   SonarScanner:
-#    needs: build
+    needs: PyTesting
     uses: ./.github/workflows/sonarcloud.yml
     secrets: inherit
 
