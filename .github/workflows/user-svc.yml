@@ -1,4 +1,4 @@
-name: billing-service
+name: user-service
 
 on:
   push:
