@@ -8,4 +8,3 @@ coverage.xml
 .github/workflows/ci.yml
 .github/workflows/cd.yml
 .github/workflows/dependency-check.yml
-.github/workflows/trivy.yml
