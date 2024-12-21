@@ -1,4 +1,4 @@
-name: Billing service workflow
+name: billing-service
 
 on:
   push:
