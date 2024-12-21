@@ -1,0 +1,42 @@
+name: db-service
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'dev'
+      - 'release-*'
+      - 'hotfix-*'
+      - 'main'
+    paths:
+      - 'db-service/**'
+  pull_request:
+    branches:
+      - 'dev'
+      - 'release-*'
+      - 'hotfix-*'
+    paths:
+      - 'db-service/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  DockerfileLinter:
+    runs-on: ${{ vars.LINUX_RUNNER_VER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: lint
+        uses: luke142367/Docker-Lint-Action@v1.0.0
+        with:
+          target: ./db-service/Dockerfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  BuildScanPushImage:
+    needs: DockerfileLinter
+    uses: ./.github/workflows/trivy.yml
+    secrets: inherit
+

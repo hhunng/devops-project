@@ -18,7 +18,6 @@ on:
     paths:
       - 'billing-service/**'
 
-####
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
@@ -35,7 +34,8 @@ jobs:
     uses: ./.github/workflows/sonarcloud.yml
     secrets: inherit
 
-#  BuildScanPushImage:
-#    needs: [build, DependencyCheck, SonarScanner]
-#    uses: ./.github/workflows/trivy.yml
-#    secrets: inherit
+  BuildScanPushImage:
+    needs: [SonarScanner, DependencyCheck]
+    uses: ./.github/workflows/trivy.yml
+    secrets: inherit
+
