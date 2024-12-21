@@ -8,11 +8,15 @@ on:
       - 'release-*'
       - 'hotfix-*'
       - 'main'
+    paths:
+      - 'billing-service/**'
   pull_request:
     branches:
       - 'dev'
       - 'release-*'
       - 'hotfix-*'
+    paths:
+      - 'billing-service/**'
 
 
 concurrency:
