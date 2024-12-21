@@ -5,7 +5,7 @@ metadata:
   labels:
     app: user-service
 spec:
-  # replicas: 2 
+  replicas: 2
   selector:
     matchLabels:
       app: user-service
@@ -19,13 +19,13 @@ spec:
         image: user-service
         ports:
         - containerPort: 8000
-      # topologySpreadConstraints:
-      # - maxSkew: 1
-      #   topologyKey: kubernetes.io/hostname
-      #   whenUnsatisfiable: DoNotSchedule
-      #   labelSelector:
-      #     matchLabels:
-      #       app: user-service
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: user-service
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
