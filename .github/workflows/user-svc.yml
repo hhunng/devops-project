@@ -9,14 +9,14 @@ on:
       - 'hotfix-*'
       - 'main'
     paths:
-      - 'billing-service/**'
+      - 'user-service/**'
   pull_request:
     branches:
       - 'dev'
       - 'release-*'
       - 'hotfix-*'
     paths:
-      - 'billing-service/**'
+      - 'user-service/**'
 
 ####
 concurrency:
@@ -34,8 +34,3 @@ jobs:
     needs: PyTesting
     uses: ./.github/workflows/sonarcloud.yml
     secrets: inherit
-
-#  BuildScanPushImage:
-#    needs: [build, DependencyCheck, SonarScanner]
-#    uses: ./.github/workflows/trivy.yml
-#    secrets: inherit

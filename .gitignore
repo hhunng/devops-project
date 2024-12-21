@@ -7,6 +7,4 @@ coverage.xml
 .github/workflows/ci.yml
 .github/workflows/cd.yml
 .github/workflows/dependency-check.yml
-.github/workflows/subscription-svc.yml
 .github/workflows/trivy.yml
-.github/workflows/user-svc.yml
