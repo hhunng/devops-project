@@ -49,5 +49,3 @@ jobs:
           docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ github.sha }}
           docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:${{ env.DOCKER_TAG }} 
           docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ matrix.microservice }}:latest
-
-#########

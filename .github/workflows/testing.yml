@@ -1,18 +1,7 @@
-name: CI Workflow
+name: Testing workflow
 
 on:
-  push:
-    branches:
-      - 'feature/*'
-      - 'dev'
-      - 'release-*'
-      - 'hotfix-*'
-      - 'main'
-  pull_request:
-    branches:
-      - 'dev'
-      - 'release-*'
-      - 'hotfix-*'
+  workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -44,18 +33,5 @@ jobs:
       - name: Upload the coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-report-${{ github.workflow }}
           path: coverage.xml
-
-#  DependencyCheck:
-#    uses: ./.github/workflows/dependency-check.yml
-#
-#  SonarScanner:
-#    needs: build
-#    uses: ./.github/workflows/sonarcloud.yml
-#    secrets: inherit
-#
-#  BuildScanPushImage:
-#    needs: [build, DependencyCheck, SonarScanner]
-#    uses: ./.github/workflows/trivy.yml
-#    secrets: inherit

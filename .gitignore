@@ -4,3 +4,9 @@
 **/__pycache__/
 coverage.xml
 .coverage
+ci.yml
+cd.yml
+dependency-check.yml
+subscription-svc.yml
+trivy.yml
+user-svc.yml
