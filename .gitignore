@@ -1,3 +1,10 @@
 .scannerwork/
 .venv
-.idea
+.idea/
+**/__pycache__/
+coverage.xml
+.coverage
+**/.coverage
+.github/workflows/ci.yml
+.github/workflows/cd.yml
+.github/workflows/dependency-check.yml

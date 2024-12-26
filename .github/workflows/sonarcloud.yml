@@ -1,0 +1,46 @@
+name: SonarScanner Workflow
+
+on:
+  workflow_call:
+    secrets:
+      sonar_token:
+        required: true
+      sonar_url:
+        required: true
+
+jobs:
+  build:
+    runs-on: ${{ vars.LINUX_RUNNER_VER }}
+    steps:
+      - name: Download artifact for coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report-${{ github.workflow }}
+
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: SonarQubeScan
+        uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          projectBaseDir: ${{ github.workflow }}/
+        env:
+          SONAR_TOKEN: ${{ secrets.sonar_token }}
+
+      - name: Find report-task.txt
+        run: |
+          # Recursively find report-task.txt and print its absolute path
+          find "$(pwd)" -name "report-task.txt" -exec realpath {} \;
+
+      - name: Quality check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        continue-on-error: true
+        with:
+          scanMetadataReportFile: ${{ github.workflow }}/.scannerwork/report-task.txt
+        env:
+          SONAR_TOKEN: ${{ secrets.sonar_token }}
+          SONAR_HOST_URL: ${{ secrets.sonar_url }}
+
+

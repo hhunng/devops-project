@@ -1,0 +1,47 @@
+name: Build and scan image
+on:
+  workflow_call:
+    secrets:
+      git_token:
+        required: true
+
+jobs:
+  build:
+    name: Build and scan image
+    runs-on: ${{ vars.LINUX_RUNNER_VER }}
+    env:
+      DOCKER_TAG: ${{ format('{0}.{1}', github.run_number, github.run_id) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build an image from Dockerfile
+        run: |
+          docker build \
+            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:${{ github.sha }} \
+            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:${{ env.DOCKER_TAG }} \
+            --tag ${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:latest \
+            --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
+            --label "org.opencontainers.image.description= ${{ github.workflow }} image for DEVOPS presentation" \
+            --label "org.opencontainers.image.licenses=MIT" \
+            ./${{ github.workflow }}/
+
+      - name: Run Trivy vulnerability scanner for
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: '${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:${{ github.sha }}'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo "${{ secrets.git_token }}" | docker login ${{ vars.REGISTRY }} -u "${{ github.actor }}" --password-stdin
+
+      - name: Push the image
+        run: |
+          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:${{ github.sha }}
+          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:${{ env.DOCKER_TAG }}
+          docker push ${{ vars.REGISTRY }}/${{ github.actor }}/${{ github.workflow }}:latest

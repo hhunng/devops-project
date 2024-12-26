@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  namespace: default
+spec:
+#  replicas: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: db-service
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: 'public'
+        - name: POSTGRES_USER
+          value: 'postgres'
+      imagePullSecrets:
+      - name: registry-secret
+#        volumeMounts:
+#        - mountPath: /var/lib/postgresql/data
+#          name: postgresdata
+#      volumes:
+#      - name: postgresdata
+#        persistentVolumeClaim:
+#          claimName: ebs-claim-v1
+          
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", "postgres"]
+            

@@ -27,7 +27,7 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
   name: user-cip-svc
 spec:
   ports:
@@ -40,37 +40,16 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata: 
-  name: postgresql
-  labels:
-    app: postgresql
-    app.kubernetes.io/name: postgresql
-spec:
-  ports:
-  - port: 5432
-    targetPort: 5432
-    protocol: TCP
-  clusterIP: None
-  selector:
-    app: postgresql
-
----
-# Client service for connecting to any MySQL instance for reads.
-# For writes, you must instead connect to the primary: mysql-0.mysql.
-apiVersion: v1
-kind: Service
 metadata:
-  name: postgresql-read
-  labels:
-    app: postgresql
-    app.kubernetes.io/name: postgresql
-    readonly: "true"
+  name: postgresql
 spec:
   ports:
-  - name:
-    port: 3306
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
   selector:
     app: postgresql
+  type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

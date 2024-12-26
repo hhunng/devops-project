@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: postgresql
-        image: phihung1607/db_postgres:1.0.1-dev
+        image: db-service
         ports:
         - containerPort: 5432
         env:
