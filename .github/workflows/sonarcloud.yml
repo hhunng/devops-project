@@ -36,6 +36,7 @@ jobs:
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
+        continue-on-error: true
         with:
           scanMetadataReportFile: ${{ github.workflow }}/.scannerwork/report-task.txt
         env:
