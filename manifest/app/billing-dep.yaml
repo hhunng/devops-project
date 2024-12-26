@@ -6,7 +6,8 @@ metadata:
   labels:
     app: billing-service
 spec:
-  replicas: 2
+#  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: billing-service
@@ -33,16 +34,19 @@ spec:
         image: billing-service
         ports:
         - containerPort: 8000
-      topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app: user-service
+#      topologySpreadConstraints:
+#      - maxSkew: 1
+#        topologyKey: kubernetes.io/hostname
+#        whenUnsatisfiable: DoNotSchedule
+#        labelSelector:
+#          matchLabels:
+#            app: user-service
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: db-secret
               key: POSTGRES_PASSWORD
+
+      imagePullSecrets:
+      - name: registry-secret

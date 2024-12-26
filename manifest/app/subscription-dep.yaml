@@ -17,14 +17,16 @@ spec:
       - name: subscription-service
         image: subscription-service
         ports:
-        - containerPort: 8000
-      topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app: subscription-service
+        - containerPort: 8001
+      imagePullSecrets:
+      - name: registry-secret
+#      topologySpreadConstraints:
+#      - maxSkew: 1
+#        topologyKey: kubernetes.io/hostname
+#        whenUnsatisfiable: DoNotSchedule
+#        labelSelector:
+#          matchLabels:
+#            app: subscription-service
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:

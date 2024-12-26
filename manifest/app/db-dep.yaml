@@ -4,6 +4,7 @@ metadata:
   name: postgresql
   namespace: default
 spec:
+#  replicas: 2
   replicas: 1
   selector:
     matchLabels:
@@ -28,14 +29,15 @@ spec:
           value: 'public'
         - name: POSTGRES_USER
           value: 'postgres'
-
-        volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: postgresdata
-      volumes:
-      - name: postgresdata
-        persistentVolumeClaim:
-          claimName: ebs-claim-v1
+      imagePullSecrets:
+      - name: registry-secret
+#        volumeMounts:
+#        - mountPath: /var/lib/postgresql/data
+#          name: postgresdata
+#      volumes:
+#      - name: postgresdata
+#        persistentVolumeClaim:
+#          claimName: ebs-claim-v1
           
         resources:
           requests:
