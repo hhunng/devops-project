@@ -10,13 +10,7 @@ on:
       - 'main'
     paths:
       - 'user-service/**'
-  pull_request:
-    branches:
-      - 'dev'
-      - 'release-*'
-      - 'hotfix-*'
-    paths:
-      - 'user-service/**'
+
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
