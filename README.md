@@ -1,1 +1,1 @@
-![Alt text](gitaction_project.png)
+![Alt text](gitaction_projects.png)
